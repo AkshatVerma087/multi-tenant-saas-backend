@@ -31,7 +31,8 @@ async function log({
 
   // Fire-and-forget — audit logging must never block or fail a user request
   pool.query(query, values).catch((err) => {
-    console.error('[AuditService] Failed to write log:', err.message);
+    const logger = require('../utils/logger');
+    logger.error(err, '[AuditService] Failed to write log');
   });
 }
 
