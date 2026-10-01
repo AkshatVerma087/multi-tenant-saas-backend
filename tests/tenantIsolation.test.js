@@ -19,13 +19,13 @@ async function seedTestData() {
   )).rows[0].id;
 
   const userA = (await pool.query(
-    `INSERT INTO users (tenant_id, email, role) VALUES ($1, 'usera@a.com', 'Member') RETURNING id`,
+    `INSERT INTO users (tenant_id, email, password_hash, role) VALUES ($1, 'usera@a.com', 'test-hash-a', 'Member') RETURNING id`,
     [tenantA]
   )).rows[0].id;
 
   // Create a user in tenantB so the created_by FK reference is valid
   const userB = (await pool.query(
-    `INSERT INTO users (tenant_id, email, role) VALUES ($1, 'userb@b.com', 'Member') RETURNING id`,
+    `INSERT INTO users (tenant_id, email, password_hash, role) VALUES ($1, 'userb@b.com', 'test-hash-b', 'Member') RETURNING id`,
     [tenantB]
   )).rows[0].id;
 
