@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { pool } = require('../db');
+const bcrypt = require('bcryptjs');
 const { generateToken } = require('../src/utils/token');
 
 async function seed() {
@@ -17,17 +18,19 @@ async function seed() {
     return;
   }
 
+  const passwordHash = await bcrypt.hash('password123', 10);
+
   // Create two users
   const admin = (await pool.query(
-    `INSERT INTO users (tenant_id, email, role)
-     VALUES ($1, 'admin@mycompany.com', 'TenantAdmin') RETURNING id`,
-    [tenant.id]
+    `INSERT INTO users (tenant_id, email, password_hash, role)
+     VALUES ($1, 'admin@mycompany.com', $2, 'TenantAdmin') RETURNING id`,
+    [tenant.id, passwordHash]
   )).rows[0];
 
   const viewer = (await pool.query(
-    `INSERT INTO users (tenant_id, email, role)
-     VALUES ($1, 'viewer@mycompany.com', 'Viewer') RETURNING id`,
-    [tenant.id]
+    `INSERT INTO users (tenant_id, email, password_hash, role)
+     VALUES ($1, 'viewer@mycompany.com', $2, 'Viewer') RETURNING id`,
+    [tenant.id, passwordHash]
   )).rows[0];
 
   // Generate tokens
