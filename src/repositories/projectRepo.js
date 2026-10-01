@@ -1,13 +1,14 @@
 const { pool } = require('../../db');
 
 // List all projects for a tenant — tenantId is ALWAYS from the JWT
-async function listProjects(tenantId) {
+async function listProjects(tenantId, limit = 50, offset = 0) {
   const result = await pool.query(
     `SELECT id, name, description, created_by, created_at
      FROM projects
      WHERE tenant_id = $1
-     ORDER BY created_at DESC`,
-    [tenantId]
+     ORDER BY created_at DESC
+     LIMIT $2 OFFSET $3`,
+    [tenantId, limit, offset]
   );
   return result.rows;
 }
