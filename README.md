@@ -1,10 +1,10 @@
-# 🏢 Multi-Tenant SaaS API Backend
+# Multi-Tenant SaaS API Backend
 
 A production-ready, highly secure multi-tenant REST API built with Node.js, Express, PostgreSQL, and Redis.
 
 This architecture demonstrates how to build a backend where multiple organizations (tenants) share the same database while being guaranteed strict **data isolation**. It includes robust Role-Based Access Control (RBAC), dynamic plan-based rate limiting, JWT authentication (with refresh tokens), structured logging, and immutable audit trails.
 
-## 🚀 Key Features
+## Key Features
 
 - **Strict Tenant Isolation:** Every database query filters by `tenant_id` extracted securely from the cryptographically verified JWT, preventing cross-tenant data leakage.
 - **Hierarchical RBAC:** Middleware-enforced roles (`SuperAdmin`, `TenantAdmin`, `Member`, `Viewer`).
@@ -16,7 +16,7 @@ This architecture demonstrates how to build a backend where multiple organizatio
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```mermaid
 graph TB
@@ -55,7 +55,7 @@ graph TB
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Choice | Rationale |
 |---|---|---|
@@ -68,7 +68,7 @@ graph TB
 
 ---
 
-## 💻 Getting Started
+## Getting Started
 
 ### 1. Prerequisites
 - Node.js (v18+)
@@ -113,7 +113,7 @@ npm test
 
 ---
 
-## 🔐 API Reference
+## API Reference
 
 ### Authentication
 - `POST /api/auth/register` - Register a new tenant organization and initial Admin user.
@@ -130,7 +130,7 @@ All endpoints require a valid `Bearer` token.
 
 ---
 
-## 🛡️ Security Design Decisions
+## Security Design Decisions
 
 1. **404 over 403:** If Tenant A attempts to request a resource belonging to Tenant B, the API returns a `404 Not Found` rather than a `403 Forbidden`. This intentionally prevents information leakage about the existence of other tenants' resources.
 2. **Stateless Tenant Context:** The `tenant_id` is *never* accepted from a request body or URL parameter. It is strictly extracted from the cryptographically verified JWT payload, preventing IDOR (Insecure Direct Object Reference) vulnerabilities.

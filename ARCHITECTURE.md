@@ -1,4 +1,4 @@
-# 🏛️ Architecture & Deep Dive: Multi-Tenant SaaS API
+# Architecture & Deep Dive: Multi-Tenant SaaS API
 
 This document serves as a comprehensive guide to the internal workings, design decisions, and architectural trade-offs of this multi-tenant SaaS backend. It is designed for engineers and reviewers who want to understand *how* and *why* this system was built the way it is.
 
