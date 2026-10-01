@@ -29,7 +29,18 @@ function createTenantRateLimiter(plan = 'free') {
   });
 }
 
-// Default limiter for all API routes
-const defaultLimiter = createTenantRateLimiter('free');
+// Pre-create limiters for performance
+const limiters = {
+  free: createTenantRateLimiter('free'),
+  pro: createTenantRateLimiter('pro'),
+  enterprise: createTenantRateLimiter('enterprise')
+};
+
+// Dynamic limiter that routes to the correct instance based on JWT plan
+const defaultLimiter = (req, res, next) => {
+  const plan = req.user?.plan || 'free';
+  const limiter = limiters[plan] || limiters.free;
+  return limiter(req, res, next);
+};
 
 module.exports = { defaultLimiter, createTenantRateLimiter };

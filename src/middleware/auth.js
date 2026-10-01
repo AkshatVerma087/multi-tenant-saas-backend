@@ -17,6 +17,7 @@ function authMiddleware(req, res, next) {
       tenantId: decoded.tenantId,
       email:    decoded.email,
       role:     decoded.role,
+      plan:     decoded.plan || 'free',
     };
 
     next();
